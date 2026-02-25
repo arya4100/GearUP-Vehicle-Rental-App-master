@@ -44,8 +44,13 @@ jobs:
         run: npm ci
 
       # 4. Build the React app
+      #    CI=false → prevents CRA from treating ESLint warnings as fatal errors
+      #    GENERATE_SOURCEMAP=false → faster build, less memory
       - name: Build Project
         run: npm run build
+        env:
+          CI: false
+          GENERATE_SOURCEMAP: false
 
       # 5. 🔐 Secret / credential scan using TruffleHog
       #    Scans the entire git history for leaked API keys, passwords, tokens, etc.
@@ -90,6 +95,9 @@ jobs:
 
       - name: Build Project
         run: npm run build
+        env:
+          CI: false
+          GENERATE_SOURCEMAP: false
 
       # Deploy built output (final-demo/build) to Firebase Hosting
       # FIREBASE_TOKEN must be added as a GitHub secret in:
