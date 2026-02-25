@@ -128,7 +128,7 @@ jobs:
 
       # 🕷️ Run ZAP Baseline Scan against the live Firebase URL
       - name: ZAP Baseline Scan
-        uses: zaproxy/action-baseline@v0.12.0
+        uses: zaproxy/action-baseline@v0.14.0
         with:
           target: 'https://gearup-1aae6.web.app/'   # Default Firebase Hosting URL
           fail_action: false                        # Set to true to fail pipeline on ZAP alerts
