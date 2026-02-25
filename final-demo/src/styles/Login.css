@@ -1,0 +1,226 @@
+/* ---------- PAGE LAYOUT ---------- */
+.login-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  font-family: "Inter", sans-serif;
+}
+
+/* ---------- LEFT BLUE SIDE ---------- */
+.login-left {
+  flex: 1;
+  background: #0f3d68;
+  color: white;
+  padding: 80px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-left h1 {
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.login-left p {
+  font-size: 18px;
+  line-height: 1.5;
+  max-width: 450px;
+}
+
+.subheading {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+/* ---------- RIGHT LOGIN SIDE ---------- */
+.login-right {
+  flex: 1;
+  background: #ffffff;
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-right h2 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: #143a52;
+}
+
+/* ---------- INPUTS (Login + Register) ---------- */
+.login-input {
+  width: 80%;
+  max-width: 420px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  border: 1px solid #dcdcdc;
+  border-radius: 10px;
+  font-size: 16px;
+  transition: 0.2s;
+}
+
+.login-input:focus {
+  border-color: #0f63ff;
+  outline: none;
+  box-shadow: 0 0 4px rgba(15, 99, 255, 0.4);
+}
+
+/* ---------- RESET PASSWORD INPUTS ---------- */
+.reset-input {
+  width: 80%;
+  max-width: 420px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 1px solid #dcdcdc;
+  font-size: 16px;
+  margin-bottom: 18px;
+  transition: 0.2s;
+}
+
+.reset-input:focus {
+  border-color: #0f63ff;
+  outline: none;
+  box-shadow: 0 0 4px rgba(15, 99, 255, 0.4);
+}
+
+/* ---------- RESET FORM ---------- */
+.reset-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ---------- LOGIN BUTTON ---------- */
+.login-btn {
+  width: 80%;
+  max-width: 420px;
+  padding: 14px;
+  margin-top: 10px;
+  background: #0f3d68;
+  color: white;
+  font-size: 17px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.login-btn:hover {
+  background: #0d3357;
+}
+
+/* ---------- ERROR BOX (Login/Register Errors) ---------- */
+.error-box {
+  width: 80%;
+  max-width: 420px;
+  background: #ffdddd;
+  color: #b30000;
+  border: 1px solid #ff9c9c;
+  padding: 12px;
+  text-align: center;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+/* ---------- SUCCESS & ERROR TEXT (Reset Page) ---------- */
+.success-text {
+  color: #16a34a;
+  font-weight: 600;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.error-text {
+  color: #dc2626;
+  font-weight: 600;
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* ---------- FORGOT PASSWORD (Login page) ---------- */
+.forgot-password {
+  font-size: 0.9rem;
+  color: #2563eb;
+  text-align: right;
+  margin-top: 6px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+/* ---------- SIGNUP & BACK LINKS ---------- */
+.signup-link {
+  margin-top: 20px;
+  font-size: 15px;
+}
+
+.signup-link a {
+  color: #0f3d68;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.signup-link a:hover {
+  text-decoration: underline;
+}
+
+.signup-link span {
+  color: #0b3b63;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.signup-link span:hover {
+  text-decoration: underline;
+}
+
+/* ---------- FORGOT PASSWORD LINK (Reset Page) ---------- */
+.forgot-password-link {
+  margin-top: 12px;
+  font-size: 0.9rem;
+  color: #0b3b63;
+  text-align: center;
+  cursor: pointer;
+}
+
+.forgot-password-link:hover {
+  text-decoration: underline;
+}
+
+/* ---------- RESET BOX (FORGOT PAGE) ---------- */
+.reset-box {
+  width: 420px;
+  padding: 40px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 900px) {
+  .login-container {
+    flex-direction: column;
+  }
+
+  .login-left {
+    padding: 40px 30px;
+    text-align: center;
+  }
+
+  .login-right {
+    padding: 40px;
+  }
+}
