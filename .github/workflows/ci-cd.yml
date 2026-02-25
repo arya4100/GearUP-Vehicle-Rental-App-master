@@ -133,4 +133,4 @@ jobs:
           target: 'https://gearup-1aae6.web.app/'   # Default Firebase Hosting URL
           fail_action: false                        # Set to true to fail pipeline on ZAP alerts
           allow_issue_writing: false                # We just want the report, no auto-GitHub issues right now
-          artifact_name: 'zap-report.html'          # Explicitly name the report to avoid invalid artifact name errors
+          artifact_name: 'zap_report'               # Artifact name cannot contain periods (.html)
