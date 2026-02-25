@@ -1,37 +1,27 @@
 name: CI/CD Pipeline
 
-# ─────────────────────────────────────────────
-# Triggers
-# ─────────────────────────────────────────────
 on:
   push:
     branches:
-      - main          # Runs on every merge to main
+      - main
   pull_request:
     branches:
-      - main          # Runs on every PR targeting main
+      - main
 
-# ─────────────────────────────────────────────
-# Job 1 – Build & Security Scan
-# Runs for BOTH push to main AND pull requests
-# ─────────────────────────────────────────────
 jobs:
   build-and-security:
     name: Build & Security Scan
     runs-on: ubuntu-latest
-
     defaults:
       run:
-        working-directory: final-demo   # React app lives here
+        working-directory: final-demo
 
     steps:
-      # 1. Checkout full history (needed for secret scanning)
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # 2. Set up Node 18
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -39,46 +29,28 @@ jobs:
           cache: npm
           cache-dependency-path: final-demo/package-lock.json
 
-      # 3. Install dependencies
       - name: Install Dependencies
         run: npm ci
 
-      # 4. Build the React app
-      #    CI=false → prevents CRA from treating ESLint warnings as fatal errors
-      #    GENERATE_SOURCEMAP=false → faster build, less memory
       - name: Build Project
         run: npm run build
         env:
           CI: false
           GENERATE_SOURCEMAP: false
 
-      # 5. 🔐 Secret / credential scan using TruffleHog
-      #    Scans git history for leaked API keys, passwords, tokens, etc.
-      #    No license key required – works on public AND private repos.
-      #
-      #    base logic:
-      #      • push to main  → compare against the commit that existed before this push
-      #      • pull request  → compare against the PR target branch tip
       - name: Secret Scan (TruffleHog)
         uses: trufflesecurity/trufflehog@main
         with:
           path: ./
           base: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
           head: ${{ github.sha }}
-          extra_args: --only-verified   # Only flag secrets provably real (reduces false positives)
+          extra_args: --only-verified
 
-  # ─────────────────────────────────────────────
-  # Job 2 – Deploy to Firebase Hosting
-  # Runs ONLY when code is merged (pushed) to main
-  # ─────────────────────────────────────────────
   deploy:
     name: Deploy to Firebase Hosting
-    needs: build-and-security        # Must pass build + security before deploy
+    needs: build-and-security
     runs-on: ubuntu-latest
-
-    # Deploy only on direct push to main (not on pull request events)
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-
     defaults:
       run:
         working-directory: final-demo
@@ -103,22 +75,15 @@ jobs:
           CI: false
           GENERATE_SOURCEMAP: false
 
-      # 🚀 Deploy to Firebase Hosting
-      # Uses the FIREBASE_TOKEN secret (generated via: firebase login:ci)
-      # firebase.json is at repo root, so we override working-directory here
       - name: Install Firebase CLI & Deploy
         run: npm install -g firebase-tools && firebase deploy --only hosting --token "$FIREBASE_TOKEN" --project gearup-1aae6
         working-directory: ${{ github.workspace }}
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
-  # ─────────────────────────────────────────────
-  # Job 3 – DAST Security Scan (OWASP ZAP)
-  # Runs ONLY after successful deployment to main
-  # ─────────────────────────────────────────────
   zap-scan:
     name: OWASP ZAP Security Scan
-    needs: deploy                  # Must run after deploy so the live site exists
+    needs: deploy
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     
@@ -126,11 +91,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      # 🕷️ Run ZAP Baseline Scan against the live Firebase URL
       - name: ZAP Baseline Scan
         uses: zaproxy/action-baseline@v0.14.0
         with:
-          target: 'https://gearup-1aae6.web.app/'   # Default Firebase Hosting URL
-          fail_action: false                        # Set to true to fail pipeline on ZAP alerts
-          allow_issue_writing: false                # We just want the report, no auto-GitHub issues right now
-          artifact_name: 'zap_report'               # Artifact name cannot contain periods (.html)
+          target: 'https://gearup-1aae6.web.app/'
+          fail_action: false
+          allow_issue_writing: false
+          artifact_name: 'zap_report'
