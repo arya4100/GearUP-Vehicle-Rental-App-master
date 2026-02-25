@@ -111,3 +111,25 @@ jobs:
         working-directory: ${{ github.workspace }}
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
+  # ─────────────────────────────────────────────
+  # Job 3 – DAST Security Scan (OWASP ZAP)
+  # Runs ONLY after successful deployment to main
+  # ─────────────────────────────────────────────
+  zap_scan:
+    name: OWASP ZAP Security Scan
+    needs: deploy                  # Must run after deploy so the live site exists
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # 🕷️ Run ZAP Baseline Scan against the live Firebase URL
+      - name: ZAP Baseline Scan
+        uses: zaproxy/action-baseline@v0.12.0
+        with:
+          target: 'https://gearup-1aae6.web.app/'   # Default Firebase Hosting URL
+          fail_action: false                        # Set to true to fail pipeline on ZAP alerts
+          allow_issue_writing: false                # We just want the report, no auto-GitHub issues right now
