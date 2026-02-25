@@ -53,15 +53,19 @@ jobs:
           GENERATE_SOURCEMAP: false
 
       # 5. 🔐 Secret / credential scan using TruffleHog
-      #    Scans the entire git history for leaked API keys, passwords, tokens, etc.
+      #    Scans git history for leaked API keys, passwords, tokens, etc.
       #    No license key required – works on public AND private repos.
+      #
+      #    base logic:
+      #      • push to main  → compare against the commit that existed before this push
+      #      • pull request  → compare against the PR target branch tip
       - name: Secret Scan (TruffleHog)
         uses: trufflesecurity/trufflehog@main
         with:
           path: ./
-          base: ${{ github.event.repository.default_branch }}
-          head: HEAD
-          extra_args: --only-verified   # Only flag secrets that are provably real (reduces noise)
+          base: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
+          head: ${{ github.sha }}
+          extra_args: --only-verified   # Only flag secrets provably real (reduces false positives)
 
   # ─────────────────────────────────────────────
   # Job 2 – Deploy to Firebase Hosting
