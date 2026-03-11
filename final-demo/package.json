@@ -50,6 +50,15 @@
       "security/detect-possible-timing-attacks": "warn"
     }
   },
+  "jest": {
+    "moduleNameMapper": {
+      "^react-router-dom$": "<rootDir>/node_modules/react-router-dom/dist/index.js",
+      "^react-router$": "<rootDir>/node_modules/react-router/dist/index.js"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!(react-router-dom|react-router|@remix-run)/)"
+    ]
+  },
   "browserslist": {
     "production": [
       ">0.2%",
