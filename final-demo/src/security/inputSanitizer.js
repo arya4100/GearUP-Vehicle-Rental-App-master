@@ -37,6 +37,9 @@ export function sanitizeName(value) {
  */
 export function validateEmail(email) {
   const trimmed = (email || "").trim().toLowerCase();
+  if (/[<>]/.test(trimmed)) {
+    throw new Error("Invalid email address: Dangerous characters detected.");
+  }
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(trimmed)) {
     throw new Error("Invalid email address.");
