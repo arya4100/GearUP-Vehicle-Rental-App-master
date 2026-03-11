@@ -23,7 +23,6 @@ function SearchPage() {
   useEffect(() => {
     async function load() {
       const result = await fetchCars();
-      console.log("Fetched cars:", result);
       setCars(result || []);
     }
     load();
@@ -109,25 +108,25 @@ function SearchPage() {
 
           <div className="input-wrapper">
             <FaCalendarAlt className="input-icon" />
-            <input 
-              type="date" 
-              value={pickupDate} 
-              onChange={(e) => setPickupDate(e.target.value)} 
+            <input
+              type="date"
+              value={pickupDate}
+              onChange={(e) => setPickupDate(e.target.value)}
             />
           </div>
 
           <div className="input-wrapper">
             <FaClock className="input-icon" />
-            <input 
-              type="time" 
-              value={pickupTime} 
-              onChange={(e) => setPickupTime(e.target.value)} 
+            <input
+              type="time"
+              value={pickupTime}
+              onChange={(e) => setPickupTime(e.target.value)}
             />
           </div>
 
           <div className="input-wrapper">
             <FaCalendarAlt className="input-icon" />
-            <input 
+            <input
               type="date"
               value={returnDate}
               onChange={(e) => setReturnDate(e.target.value)}
@@ -136,10 +135,10 @@ function SearchPage() {
 
           <div className="input-wrapper">
             <FaClock className="input-icon" />
-            <input 
-              type="time" 
-              value={returnTime} 
-              onChange={(e) => setReturnTime(e.target.value)} 
+            <input
+              type="time"
+              value={returnTime}
+              onChange={(e) => setReturnTime(e.target.value)}
             />
           </div>
 
@@ -153,7 +152,7 @@ function SearchPage() {
 
         {/* SIDEBAR */}
         <aside className="sidebar">
-          
+
           {/* MAP */}
           <div className="map-box">
             <img src={mapImage} alt="Map" className="map-img" />

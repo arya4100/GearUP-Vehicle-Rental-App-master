@@ -3,20 +3,19 @@
 ## 👥 Team Members & Folder Structure  
 
 This repository is organized so each team member has their own dedicated folder for development.  
-This structure avoids merge conflicts and keeps everyone’s work organized before integration.  
 
 GearUP-Vehicle-Rental-App/
 
 │
-├── avi/ → Avi’s components and UI pages (e.g., Search Page, Firebase setup)
+├── arya/ → Arya’s lead components (Security features, CI/CD, Infrastructure)
 │
-├── anku/ → Anku’s components (e.g., Register Page, styling updates)
+├── tanveer/ → Tanveer’s components (Auth pages, Firebase setup)
 │
-├── tanveer/ → Tanveer’s components (e.g., Login Page, authentication logic)
+├── kiran/ → Kiran’s components (UI Styling, user feedback)
 │
-├── shared/ → Common files used by the entire team (e.g., Firebase config, assets, utils)
+├── shared/ → Common files used by the team (Firebase config, assets, utils)
 │
-└── README.md → Project overview, setup guide, and team documentation
+└── README.md → Project overview and documentation
 
 
 ### 🧭 Collaboration Rules
@@ -74,23 +73,29 @@ It aims to streamline the vehicle rental process for both customers and rental a
 
 ### 1️⃣ Clone this repository  
 ```bash
-git clone https://github.com/Aviyash1/GearUP-Vehicle-Rental-App.git
+git clone https://github.com/arya4100/GearUP-Vehicle-Rental-App-master.git
+```
+### 2️⃣ Open the project in VS Code
+```bash
+cd GearUP-Vehicle-Rental-App/
+```
 
-2️⃣ Open the project in VS Code
-cd GearUP-Vehicle-Rental-App
-
-3️⃣ Install dependencies
+### 3️⃣ Install dependencies
 
 (once Firebase and React setup are merged)
 
+```bash
 npm install
+```
 
-4️⃣ Start the application
+### 4️⃣ Start the application
+```bash
 npm start
+```
 
-🧑‍💻 Contribution Guidelines
+## 🧑‍💻 Contribution Guidelines
 
-Each member works in their folder (avi, anku, tanveer).
+Each member works in their folder (arya, tanveer, kiran). Arya leads the overall architecture and security implementation.
 
 Commit regularly with meaningful messages (e.g., Added search page UI, Updated Register component).
 
@@ -106,11 +111,11 @@ Project Manager: Waruni Hewage
 
 Team Members:
 
-Aviyash Shohil Kumar
+Arya (Lead Developer - Security, CI/CD, Infrastructure)
 
-Anku Ankush
+Tanveer (Developer - Authentication, Firebase)
 
-Tanveer Singh
+Kiran (Developer - UI/UX, Feedback)
 
 Institution: Otago Polytechnic (Future Skills, Auckland)
 
