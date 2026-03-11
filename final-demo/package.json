@@ -17,17 +17,38 @@
     "uuid": "^13.0.0",
     "web-vitals": "^2.1.4"
   },
+  "devDependencies": {
+    "eslint-plugin-security": "^3.0.1"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "security:audit":      "npm audit --omit=dev --audit-level=critical",
+    "security:audit:full": "npm audit --json > security-audit-report.json && echo Report saved to security-audit-report.json",
+    "security:check":      "npm run security:audit && echo [PASS] No critical vulnerabilities found in production deps.",
+    "security:all":        "npm run security:check && npm run security:lint",
+    "security:lint":       "eslint src --ext .js,.jsx --rule \"no-eval:error\" --rule \"no-implied-eval:error\" --rule \"no-new-func:error\" --max-warnings 0 --format codeframe"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
-      "react-app/jest"
-    ]
+      "react-app/jest",
+      "plugin:security/recommended"
+    ],
+    "plugins": [
+      "security"
+    ],
+    "rules": {
+      "no-eval": "error",
+      "no-implied-eval": "error",
+      "no-new-func": "error",
+      "security/detect-object-injection": "warn",
+      "security/detect-non-literal-regexp": "warn",
+      "security/detect-unsafe-regex": "error",
+      "security/detect-possible-timing-attacks": "warn"
+    }
   },
   "browserslist": {
     "production": [

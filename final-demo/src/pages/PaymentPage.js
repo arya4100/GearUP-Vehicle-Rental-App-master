@@ -5,6 +5,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase/firebaseConfig";
 import { createBooking } from "../firebase/bookingService";
 import { addDoc, collection } from "firebase/firestore";
+// OWASP A09 – Security logging
+import { securityLog, SecurityEvents } from "../security/securityLogger";
+// OWASP A10 – URL validation to prevent SSRF
+import { safeSrc } from "../security/urlValidator";
 
 function PaymentPage() {
   const location = useLocation();
@@ -54,7 +58,13 @@ function PaymentPage() {
   };
 
   // CONFIRM PAYMENT
+  // OWASP A09 – Log payment initiation
   const handleConfirmPayment = async () => {
+    securityLog.info(SecurityEvents.PAYMENT.PAYMENT_INITIATED, "Payment initiated", {
+      carModel: car?.model,
+      rentalDays,
+      baseTotal,
+    });
     if (!auth.currentUser) return navigate("/login");
 
     const bookingData = {
@@ -110,8 +120,13 @@ Return: ${returnDate} ${returnTime}`,
         type: "success",
       });
 
+      securityLog.info(SecurityEvents.PAYMENT.PAYMENT_COMPLETED, "Payment completed", {
+        carModel: car?.model,
+        total: baseTotal,
+      });
       setShowSuccess(true);
     } else {
+      securityLog.warn(SecurityEvents.PAYMENT.PAYMENT_FAILED, "Payment/booking creation failed");
       alert("Booking failed.");
     }
   };
@@ -124,7 +139,8 @@ Return: ${returnDate} ${returnTime}`,
         <div className="left-column">
           <div className="payment-card">
             <div className="image-stack">
-              <img src={car.imageUrl} alt={car.model} className="payment-car-img" />
+              {/* OWASP A10 – validate image URL against allowlist */}
+              <img src={safeSrc(car.imageUrl)} alt={car.model} className="payment-car-img" />
 
               <div className="pickup-map-container">
                 <div className="pickup-map-header">📍 Pick-up Location</div>

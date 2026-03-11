@@ -20,6 +20,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import SearchPage from "./pages/SearchPage";
 import PaymentPage from "./pages/PaymentPage";
 import Favourites from "./pages/Favourites";
+import Unauthorized from "./pages/Unauthorized"; // OWASP A01 – required for ProtectedRoute
 
 function App() {
   return (
@@ -79,9 +80,14 @@ function App() {
           }
         />
 
-        <Route 
+        {/* OWASP A01 – Favourites must be authenticated */}
+        <Route
           path="/favourites"
-          element={<Favourites />}
+          element={
+            <ProtectedRoute allowedRoles={["User", "CarOwner", "Admin"]}>
+              <Favourites />
+            </ProtectedRoute>
+          }
         />
 
 
@@ -143,6 +149,8 @@ function App() {
 
         <Route path="/reset" element={<ResetPassword />} />
 
+        {/* OWASP A01 – Unauthorized / 403 page */}
+        <Route path="/unauthorized" element={<Unauthorized />} />
 
       </Routes>
     </Router>

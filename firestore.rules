@@ -1,0 +1,133 @@
+// ============================================================
+// GearUP Firestore Security Rules
+// OWASP A01 – Broken Access Control
+// OWASP A04 – Insecure Design
+// ============================================================
+//
+// These rules run on the Firebase server and are the ONLY
+// authoritative access-control layer. Client-side checks are
+// a UX improvement only — these rules enforce real security.
+//
+// Principles applied:
+//   1. Deny by default — no rule grants access unless explicitly allowed.
+//   2. Least privilege — each role can only access data it owns or needs.
+//   3. Users can never elevate their own role field.
+//   4. Passwords are never stored (Firebase Auth handles that).
+//   5. Sensitive payment data is write-once for the booking user.
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Helper functions ─────────────────────────────────────
+
+    // Is the request from an authenticated Firebase Auth user?
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Is the acting user the document owner?
+    function isOwner(uid) {
+      return isAuthenticated() && request.auth.uid == uid;
+    }
+
+    // Fetch the caller's role from Firestore (server-side lookup).
+    // NOTE: Firestore does NOT allow recursive get() in the same
+    //       collection being matched — this is safe because we read
+    //       from /users/{uid} inside other collection matches.
+    function callerRole() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && callerRole() == 'Admin';
+    }
+
+    function isCarOwner() {
+      return isAuthenticated() && callerRole() == 'CarOwner';
+    }
+
+    // ── /users/{uid} ─────────────────────────────────────────
+    //   • Anyone authenticated may read their OWN profile.
+    //   • Only the admin may list all users.
+    //   • A user may update their OWN profile but CANNOT change their role.
+    //   • Only the Firebase Auth create flow (via cloud function or
+    //     authenticated setDoc) may create a new document.
+    match /users/{uid} {
+      allow read:   if isOwner(uid) || isAdmin();
+      allow create: if isOwner(uid)
+                    && request.resource.data.keys().hasAll(['uid','name','email','phone','role','createdAt'])
+                    && !('password' in request.resource.data);   // OWASP A02 – never allow password field
+      allow update: if isOwner(uid)
+                    && request.resource.data.role == resource.data.role // cannot self-escalate
+                    && !('password' in request.resource.data);           // OWASP A02
+      allow delete: if isAdmin();
+    }
+
+    // ── /cars/{carId} ────────────────────────────────────────
+    //   • Any authenticated user may read (browse) cars.
+    //   • Only a CarOwner may create cars for themselves.
+    //   • Only the owning CarOwner or an Admin may update/delete.
+    match /cars/{carId} {
+      allow read:   if isAuthenticated();
+      allow create: if isCarOwner()
+                    && request.resource.data.ownerId == request.auth.uid; // OWASP A01 – mass assignment guard
+      allow update: if isAdmin()
+                    || (isCarOwner() && resource.data.ownerId == request.auth.uid);
+      allow delete: if isAdmin()
+                    || (isCarOwner() && resource.data.ownerId == request.auth.uid);
+    }
+
+    // ── /bookings/{bookingId} ────────────────────────────────
+    //   • User may create a booking for themselves.
+    //   • User may read their own bookings; Car Owner may read their cars' bookings; Admin reads all.
+    //   • Status updates only (no price manipulation) allowed by the car owner or admin.
+    match /bookings/{bookingId} {
+      allow read:   if isAuthenticated()
+                    && (resource.data.userId == request.auth.uid
+                        || resource.data.ownerId == request.auth.uid
+                        || isAdmin());
+      allow create: if isAuthenticated()
+                    && request.resource.data.userId == request.auth.uid;
+      allow update: if isAdmin()
+                    || (isCarOwner() && resource.data.ownerId == request.auth.uid
+                        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status']));
+      allow delete: if isAdmin();
+    }
+
+    // ── /payments/{paymentId} ────────────────────────────────
+    //   • Write-once by authenticated user; read only by admin.
+    //   • No updates or deletes by clients.
+    match /payments/{paymentId} {
+      allow create: if isAuthenticated()
+                    && request.resource.data.user == request.auth.uid;
+      allow read:   if isAdmin();
+      allow update, delete: if false; // OWASP A01 – immutable payment records
+    }
+
+    // ── /notifications/{notifId} ─────────────────────────────
+    //   • A user may read and mark-as-read their own notifications.
+    //   • System (authenticated) writes; no client deletes.
+    match /notifications/{notifId} {
+      allow read:   if isAuthenticated() && resource.data.userId == request.auth.uid;
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated()
+                    && resource.data.userId == request.auth.uid
+                    && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['read']);
+      allow delete: if isAdmin();
+    }
+
+    // ── /favourites/{favId} ──────────────────────────────────
+    match /favourites/{favId} {
+      allow read, write: if isAuthenticated() && resource.data.userId == request.auth.uid;
+      allow create:      if isAuthenticated() && request.resource.data.userId == request.auth.uid;
+      allow delete:      if isAuthenticated() && resource.data.userId == request.auth.uid;
+    }
+
+    // ── Default deny ─────────────────────────────────────────
+    // Any collection not listed above is explicitly denied.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

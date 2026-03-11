@@ -5,39 +5,63 @@
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
+    <meta name="description" content="GearUP – Vehicle Rental Platform" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
+    <!--
+      OWASP A05 – Security Misconfiguration
+      Content-Security-Policy restricts which resources the browser may load.
+      This prevents XSS, data-injection, clickjacking, and mixed-content attacks.
+
+      Explanation of each directive:
+        default-src 'self'              — only load from same origin by default
+        script-src 'self'               — no inline scripts, no eval()
+        style-src 'self' 'unsafe-inline'— allow inline styles (React/CRA requirement)
+        img-src                         — restrict image origins to our CDN + trusted list
+        connect-src                     — restrict XHR/fetch to Firebase endpoints only
+        font-src 'self'                 — no external fonts by default
+        frame-ancestors 'none'          — OWASP A05 – prevent clickjacking (like X-Frame-Options DENY)
+        form-action 'self'              — prevent form submission hijacking
+        base-uri 'self'                 — prevent <base> tag injection
+        object-src 'none'              — disallow Flash/plugins
     -->
-    <title>React App</title>
+    <meta http-equiv="Content-Security-Policy"
+      content="
+        default-src 'self';
+        script-src 'self';
+        style-src 'self' 'unsafe-inline';
+        img-src 'self' data: https://firebasestorage.googleapis.com https://storage.googleapis.com https://lh3.googleusercontent.com https://upload.wikimedia.org https://www.shutterstock.com https://www.apple.com https://via.placeholder.com;
+        connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://*.firebaseapp.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com;
+        font-src 'self';
+        frame-ancestors 'none';
+        form-action 'self';
+        base-uri 'self';
+        object-src 'none';
+      "
+    />
+
+    <!-- OWASP A05 – Prevent MIME-type sniffing -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+
+    <!-- OWASP A05 – Prevent clickjacking (belt-and-suspenders with CSP frame-ancestors) -->
+    <meta http-equiv="X-Frame-Options" content="DENY" />
+
+    <!-- OWASP A05 – Force HTTPS, include subdomains -->
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains" />
+
+    <!-- OWASP A05 – Control referrer information leaked to third parties -->
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+    <!-- OWASP A05 – Disable browser features not needed by the app -->
+    <meta http-equiv="Permissions-Policy"
+      content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=()"
+    />
+
+    <title>GearUP – Vehicle Rental</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
   </body>
 </html>
