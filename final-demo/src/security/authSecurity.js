@@ -144,5 +144,5 @@ function mapFirebaseError(code) {
     "auth/network-request-failed": "Network error. Check your connection.",
     "auth/invalid-credential":  "Invalid credentials. Please check and retry.",
   };
-  return messages[code] || "Authentication error. Please try again.";
+  return messages[String(code)] || "Authentication error. Please try again.";
 }

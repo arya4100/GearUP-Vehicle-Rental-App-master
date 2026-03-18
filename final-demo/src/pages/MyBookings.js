@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "../styles/MyBookings.css";
-import { auth, db } from "../firebase/firebaseConfig";
+import { auth } from "../firebase/firebaseConfig";
 import { fetchBookingsByUser, cancelBooking } from "../firebase/bookingService";
 import { addFavourite, removeFavourite, fetchFavourites } from "../firebase/favouriteService";
-import { doc, getDoc } from "firebase/firestore";
 
 export default function MyBookings() {
   const [bookings, setBookings] = useState([]);
@@ -83,7 +82,7 @@ export default function MyBookings() {
               <div key={b.id} className="booking-card">
 
                 {/* IMAGE */}
-                <img src={b.carImage} alt="" className="booking-img" />
+                <img src={b.carImage} alt={b.carModel} className="booking-img" />
 
                 {/* INFO */}
                 <div className="booking-info">
@@ -132,7 +131,7 @@ export default function MyBookings() {
           <div className="modal-box">
             <button className="close-modal" onClick={() => setSelectedBooking(null)}>✕</button>
 
-            <img src={selectedBooking.carImage} className="modal-image" />
+            <img src={selectedBooking.carImage} alt={selectedBooking.carModel} className="modal-image" />
 
             <h2>{selectedBooking.carModel}</h2>
 

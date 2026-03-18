@@ -27,7 +27,7 @@ function redact(data) {
   if (!data || typeof data !== "object") return data;
   const safe = { ...data };
   REDACTED_FIELDS.forEach((f) => {
-    if (f in safe) safe[f] = "***REDACTED***";
+    if (f in safe) safe[String(f)] = "***REDACTED***";
   });
   return safe;
 }

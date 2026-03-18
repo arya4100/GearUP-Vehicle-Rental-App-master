@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { auth, db } from "../firebase/firebaseConfig";
 import { createBooking } from "../firebase/bookingService";
-import { addDoc, collection } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 // OWASP A09 – Security logging
 import { securityLog, SecurityEvents } from "../security/securityLogger";
 // OWASP A10 – URL validation to prevent SSRF
@@ -54,7 +54,8 @@ function PaymentPage() {
   };
 
   const handleAssistantClick = (topic) => {
-    document.getElementById("supportOutput").textContent = answers[topic];
+    const output = document.getElementById("supportOutput");
+    if (output) output.textContent = answers[String(topic)];
   };
 
   // CONFIRM PAYMENT
@@ -149,7 +150,7 @@ Return: ${returnDate} ${returnTime}`,
                 <img
                   src="https://www.apple.com/v/maps/d/images/overview/background_light_alt__bdgrj5s9pwqq_xlarge.jpg"
                   className="pickup-map"
-                  alt="Map"
+                  alt="Map of pickup location"
                 />
               </div>
             </div>
@@ -212,9 +213,9 @@ Return: ${returnDate} ${returnTime}`,
             <h3>Secure Payment</h3>
 
             <div className="payment-logos">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" />
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1200px-Mastercard-logo.svg.png" />
-              <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/American_Express_logo.svg" />
+              <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" alt="Visa" />
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1200px-Mastercard-logo.svg.png" alt="Mastercard" />
+              <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/American_Express_logo.svg" alt="American Express" />
             </div>
 
             <div className="card-input-wrapper">
@@ -236,8 +237,9 @@ Return: ${returnDate} ${returnTime}`,
 
           <div className="support-box">
             <div className="assistant-header">
-              <img className="assistant-avatar"
+              <img
                 src="https://www.shutterstock.com/image-vector/support-icon-can-be-used-600nw-1887496465.jpg"
+                alt="Assistant Avatar"
               />
               <h4>GearUP Support</h4>
             </div>

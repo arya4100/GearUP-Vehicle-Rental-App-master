@@ -173,8 +173,8 @@ function SearchPage() {
           <div className="filters">
             <div className="filter-header">
               <h3>Filters</h3>
-              <a
-                href="#"
+              <button
+                className="clear-filters-btn"
                 onClick={() => {
                   setLocationFilter([]);
                   setTransmissionFilter([]);
@@ -182,7 +182,7 @@ function SearchPage() {
                 }}
               >
                 Clear all filters
-              </a>
+              </button>
             </div>
 
             <div className="filter-group">

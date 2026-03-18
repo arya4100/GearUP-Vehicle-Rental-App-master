@@ -49,7 +49,10 @@ export default function AddNewCar({ open, onClose, onCarAdded }) {
       "rent", "location", "imageUrl"
     ];
 
-    const missing = required.filter((k) => !String(car[k]).trim());
+    const missing = required.filter((k) => {
+      const val = car[String(k)];
+      return !String(val).trim();
+    });
     if (missing.length > 0) return `Missing: ${missing.join(", ")}`;
 
     if (!/^\d{4}$/.test(car.year)) return "Year must be 4 digits.";
@@ -100,7 +103,7 @@ export default function AddNewCar({ open, onClose, onCarAdded }) {
               <input
                 key={key}
                 name={key}
-                value={car[key]}
+                value={car[String(key)]}
                 placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
                 onChange={handleChange}
                 className="addcar-input"

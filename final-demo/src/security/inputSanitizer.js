@@ -52,7 +52,7 @@ export function validateEmail(email) {
  */
 export function validatePhone(phone) {
   const trimmed = (phone || "").trim();
-  if (!/^[+\d\s\-]{7,20}$/.test(trimmed)) {
+  if (!/^[+\d\s-]{7,20}$/.test(trimmed)) {
     throw new Error("Invalid phone number.");
   }
   return trimmed;

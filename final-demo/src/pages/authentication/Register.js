@@ -70,7 +70,8 @@ export default function Register() {
         return;
       }
 
-      if (password !== confirm) {
+      const matches = (password === confirm);
+      if (!matches) {
         setErrorMsg("Passwords do not match.");
         setLoading(false);
         return;

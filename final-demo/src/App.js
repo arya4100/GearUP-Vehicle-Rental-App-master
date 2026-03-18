@@ -7,13 +7,11 @@ import ResetPassword from "./pages/authentication/ResetPassword";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 
-import Vehicles from "./pages/Vehicles";
 import BookVehicle from "./pages/BookVehicle";
 import FeedbackPage from "./pages/FeedbackPage";
 import MyBookings from "./pages/MyBookings";
 import MyProfile from "./pages/MyProfile";
 import UserNotifications from "./pages/UserNotifications";
-import Documentation from "./pages/Documentation";
 import CarOwnerDashboard from "./pages/CarOwnerDashboard";
 import Settings from "./pages/Settings";
 import AdminDashboard from "./pages/AdminDashboard";

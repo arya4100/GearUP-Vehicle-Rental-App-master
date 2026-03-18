@@ -19,7 +19,7 @@ function Documentation() {
     }
 
     loadRole();
-  }, []);
+  }, [navigate]);
 
   function goBack() {
     if (role === "CarOwner") navigate("/car-owner");
@@ -83,7 +83,7 @@ function Documentation() {
 
       <div className="doc-grid">
         {Object.keys(docs).map((key) => {
-          const item = docs[key];
+          const item = docs[String(key)];
           const displayName = key.charAt(0).toUpperCase() + key.slice(1);
 
           return (

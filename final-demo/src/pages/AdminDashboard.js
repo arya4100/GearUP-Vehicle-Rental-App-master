@@ -9,9 +9,7 @@ import { useNavigate } from "react-router-dom";
 import {
   fetchVerificationRequests,
   fetchCarRequests,
-  fetchPaymentRequests,
   fetchAllBookings,
-  pushAdminNotification,
   approveVehicle,
   denyVehicle,
   approveVerification,
@@ -22,12 +20,10 @@ function AdminDashboard() {
   const navigate = useNavigate();
 
   const [activeSection, setActiveSection] = useState("overview");
-  const [slidingItem, setSlidingItem] = useState(null);
 
   // Data
   const [verificationRequests, setVerificationRequests] = useState([]);
   const [carRequests, setCarRequests] = useState([]);
-  const [paymentRequests, setPaymentRequests] = useState([]);
   const [bookings, setBookings] = useState([]);
 
   const [totalRevenue, setTotalRevenue] = useState(0);
@@ -42,12 +38,10 @@ function AdminDashboard() {
     async function load() {
       const ver = await fetchVerificationRequests();
       const cars = await fetchCarRequests();
-      const pays = await fetchPaymentRequests();
       const allBookings = await fetchAllBookings();
 
       setVerificationRequests(ver);
       setCarRequests(cars);
-      setPaymentRequests(pays);
       setBookings(allBookings);
 
       const revenueTotal = allBookings.reduce(
@@ -62,10 +56,8 @@ function AdminDashboard() {
 
   // Animation handler
   const slideThen = async (callback) => {
-    setSlidingItem(Math.random());
     setTimeout(async () => {
       await callback();
-      setSlidingItem(null);
     }, 250);
   };
 

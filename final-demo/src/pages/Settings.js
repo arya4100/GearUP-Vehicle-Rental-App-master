@@ -33,7 +33,7 @@ function Settings() {
       }
     }
     loadRole();
-  }, []);
+  }, [navigate]);
 
   // Back navigation based on role
   const goBack = () => {

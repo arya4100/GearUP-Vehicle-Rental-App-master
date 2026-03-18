@@ -10,7 +10,7 @@ export default function CarViewModal({ open, onClose, car }) {
 
         <button className="modal-close" onClick={onClose}>✕</button>
 
-        <img src={car.imageUrl} className="modal-image" />
+        <img src={car.imageUrl} className="modal-image" alt={car.model} />
 
         <h2>{car.model}</h2>
         <span className="modal-badge">{car.status}</span>
