@@ -18,6 +18,7 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
+    "eslint-formatter-codeframe": "^7.32.2",
     "eslint-plugin-security": "^1.7.1"
   },
   "scripts": {
@@ -25,11 +26,11 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "security:audit":      "npm audit --omit=dev --audit-level=critical",
+    "security:audit": "npm audit --omit=dev --audit-level=critical",
     "security:audit:full": "npm audit --json > security-audit-report.json && echo Report saved to security-audit-report.json",
-    "security:check":      "npm run security:audit && echo [PASS] No critical vulnerabilities found in production deps.",
-    "security:all":        "npm run security:check && npm run security:lint",
-    "security:lint":       "eslint src --ext .js,.jsx --rule \"no-eval:error\" --rule \"no-implied-eval:error\" --rule \"no-new-func:error\" --max-warnings 0 --format codeframe"
+    "security:check": "npm run security:audit && echo [PASS] No critical vulnerabilities found in production deps.",
+    "security:all": "npm run security:check && npm run security:lint",
+    "security:lint": "eslint src --ext .js,.jsx --rule \"no-eval:error\" --rule \"no-implied-eval:error\" --rule \"no-new-func:error\" --max-warnings 0 --format codeframe"
   },
   "eslintConfig": {
     "extends": [
