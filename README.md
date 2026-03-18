@@ -8,14 +8,6 @@ GearUP-Vehicle-Rental-App/
 
 │
 ├── arya/ → Arya’s lead components (Security features, CI/CD, Infrastructure)
-│
-├── tanveer/ → Tanveer’s components (Auth pages, Firebase setup)
-│
-├── kiran/ → Kiran’s components (UI Styling, user feedback)
-│
-├── shared/ → Common files used by the team (Firebase config, assets, utils)
-│
-└── README.md → Project overview and documentation
 
 
 ### 🧭 Collaboration Rules
