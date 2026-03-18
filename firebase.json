@@ -44,7 +44,15 @@
           },
           {
             "key": "Content-Security-Policy",
-            "value": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://firebasestorage.googleapis.com https://storage.googleapis.com https://lh3.googleusercontent.com https://upload.wikimedia.org https://www.shutterstock.com https://www.apple.com https://via.placeholder.com; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://*.firebaseapp.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com; font-src 'self'; frame-ancestors 'none'; form-action 'self'; base-uri 'self'; object-src 'none';"
+            "value": "upgrade-insecure-requests; default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://firebasestorage.googleapis.com https://storage.googleapis.com https://lh3.googleusercontent.com https://upload.wikimedia.org https://www.shutterstock.com https://www.apple.com https://via.placeholder.com; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://*.firebaseapp.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com; font-src 'self'; frame-ancestors 'none'; form-action 'self'; base-uri 'self'; object-src 'none';"
+          },
+          {
+            "key": "Cross-Origin-Opener-Policy",
+            "value": "same-origin"
+          },
+          {
+            "key": "Cross-Origin-Resource-Policy",
+            "value": "same-origin"
           }
         ]
       },
