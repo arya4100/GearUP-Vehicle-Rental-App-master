@@ -1,125 +1,99 @@
-# GearUP — Vehicle Rental App  
+👥 Team Members & Folder Structure
 
-## 👥 Team Members & Folder Structure  
-
-This repository is organized so each team member has their own dedicated folder for development.  
+This repository is organized so each team member has their own dedicated folder for development and responsibility ownership.
 
 GearUP-Vehicle-Rental-App/
 
 │
-├── arya/ → Arya’s lead components (Security features, CI/CD, Infrastructure)
-├── tanveer/ → tanveer’s testing (taking responsibility to test each and every components)
+├── arya/ → Arya’s lead components (Security architecture, CI/CD pipeline, Infrastructure stability)
+├── tanveer/ → Tanveer’s development (Authentication, Firebase integration, Testing)
+├── shared/ → Shared configs, constants, and reusable modules
+🧭 Collaboration Rules
+Each member works only in their assigned folder to avoid merge conflicts
+Shared files go into the shared/ folder
+Inform the team before editing shared files
+Regular git pull to stay updated
+Use pull requests for major updates
+🚗 Project Overview
 
+GearUP is a secure, scalable web-based vehicle rental application designed to streamline booking and vehicle management.
 
-### 🧭 Collaboration Rules
-- Each member works **only in their folder** to avoid merge conflicts.  
-- Shared files (like configs or constants) go into the `shared/` folder.  
-- Before editing anything in `shared/`, inform the group in Teams.  
-- Regularly run `git pull` to stay updated with other members’ changes.  
+In Studio 4, the focus is on security, deployment, testing, and system stability rather than just building features.
 
----
-
-## 🚗 Project Overview  
-
-**GearUP** is a **web-based vehicle rental application** that allows users to search, book, and manage rental vehicles in a simple and intuitive interface.  
-It aims to streamline the vehicle rental process for both customers and rental agencies through automation and accessibility.  
-
-### 🎯 Project Goals
-- Build a responsive and user-friendly interface for renters.  
-- Enable secure user authentication and data handling.  
-- Integrate a Firebase backend for real-time data management.  
-- Display available vehicles with filters (location, transmission, price).  
-- Provide clear booking flow and confirmation system.  
-
----
-
-## 🧩 Technologies Used
-- **React.js** — Frontend framework for building the UI  
-- **Firebase** — Authentication and database  
-- **HTML5 / CSS3 / JavaScript (ES6)** — Core technologies for layout and interactivity  
-- **GitHub** — Version control and collaboration  
-- **VS Code** — Main development environment  
-
----
-
-## 🏗️ Current Progress (as of Week 3)
-- ✅ Initial meeting with client Tariq Khan completed  
-- ✅ Wireframes and UI designs created  
-- ✅ Project repository and folder structure set up  
-- ✅ Sprint 1 user stories completed (basic UI and navigation)  
-- 🔄 Sprint 2 in progress — Firebase setup and integration  
-
----
-
-## 🌱 Sustainability & SDG Alignment
-- **Environmental:** Encourages shared mobility to reduce individual vehicle ownership and emissions.  
-- **Social:** Promotes accessibility and inclusion by connecting renters and vehicle owners easily.  
-- **Economic:** Helps small rental providers grow by giving them digital visibility.  
-- **SDG Goals:**  
-  - SDG 11: Sustainable Cities and Communities  
-  - SDG 13: Climate Action  
-  - SDG 8: Decent Work and Economic Growth  
-
----
-
-## ⚙️ How to Run Locally
-
-### 1️⃣ Clone this repository  
-```bash
+🎯 Project Goals
+Build a secure and scalable system
+Implement strong authentication and data protection
+Apply OWASP Top 10 security practices
+Automate deployment using CI/CD pipelines
+Ensure smooth and responsive UI/UX
+Maintain reliable real-time data using Firebase
+🧩 Technologies Used
+React.js
+Firebase
+HTML5, CSS3, JavaScript (ES6)
+GitHub Actions (CI/CD)
+Docker
+VirtualBox (Linux environment)
+VS Code
+🔐 Studio 4 Enhancements (Key Contribution – Arya)
+🔒 Security Implementation
+I designed the system using a security-first approach
+I mapped and mitigated OWASP Top 10 vulnerabilities
+I secured frontend logic using Firebase rules and validation
+Reduced risks like injection, broken authentication, and data exposure
+⚙️ CI/CD Pipeline
+I built a GitHub Actions automated pipeline
+Removed manual deployment issues
+Added:
+Build validation
+Security checks
+Controlled deployment
+🖥️ Environment Stability
+I used VirtualBox with Linux for environment isolation
+I implemented Docker containers for consistency
+Solved “works on my machine” problems
+🧪 Testing (Tanveer)
+Responsible for testing all modules
+Performs functional and API testing
+Ensures system reliability before deployment
+🏗️ Current Progress (Studio 4)
+✅ Secure architecture implemented
+✅ CI/CD pipeline working
+✅ Firebase integration completed
+✅ UI and booking system functional
+🔄 Security testing in progress
+🔄 Deployment optimization ongoing
+🌱 Sustainability & SDG Alignment
+Environmental: Promotes shared mobility → reduces emissions
+Social: Improves accessibility
+Economic: Supports small rental businesses
+🌍 SDGs
+SDG 11: Sustainable Cities
+SDG 13: Climate Action
+SDG 8: Economic Growth
+⚙️ How to Run Locally
 git clone https://github.com/arya4100/GearUP-Vehicle-Rental-App-master.git
-```
-### 2️⃣ Open the project in VS Code
-```bash
 cd GearUP-Vehicle-Rental-App/
-```
-
-### 3️⃣ Install dependencies
-
-(once Firebase and React setup are merged)
-
-```bash
 npm install
-```
-
-### 4️⃣ Start the application
-```bash
 npm start
-```
-
-## 🧑‍💻 Contribution Guidelines
-
-Each member works in their folder (arya, tanveer, kiran). Arya leads the overall architecture and security implementation.
-
-Commit regularly with meaningful messages (e.g., Added search page UI, Updated Register component).
-
-Use pull requests for major shared updates.
-
-Don’t edit other members’ folders unless agreed upon in the group.
-
+🧑‍💻 Contribution Guidelines
+Work in your own folder
+Use clear commit messages
+Use pull requests
+Maintain security and code quality
+Do not modify others’ work without discussion
 📅 Project Details
-
-Client: Tariq Khan
-
-Project Manager: Waruni Hewage
-
-Team Members:
-
-Arya (Lead Developer - Security, CI/CD, Infrastructure)
-
-Tanveer (Developer - Authentication, Firebase)
-
-Kiran (Developer - UI/UX, Feedback)
-
+Project: GearUP Vehicle Rental App
+Course: Studio 4 — Application Development & Integration
 Institution: Otago Polytechnic (Future Skills, Auckland)
+👨‍💻 Team Members
+Arya — Lead (Security, CI/CD, Infrastructure)
+Tanveer — Dev (Auth, Firebase, Testing)
 
-Course: Introductory Application Development (Studio 3 Integration)
 
 📌 Future Improvements
-
-Vehicle owner dashboard for listing management
-
 Payment gateway integration
-
-Push notifications for booking updates
-
-Admin analytics panel
+Admin dashboard
+Vehicle owner panel
+Push notifications
+Monitoring & logging system
