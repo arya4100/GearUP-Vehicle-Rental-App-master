@@ -8,6 +8,7 @@ GearUP-Vehicle-Rental-App/
 
 │
 ├── arya/ → Arya’s lead components (Security features, CI/CD, Infrastructure)
+├── tanveer/ → tanveer’s testing (taking responsibility to test each and every components)
 
 
 ### 🧭 Collaboration Rules
