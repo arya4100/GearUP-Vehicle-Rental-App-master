@@ -1,0 +1,53 @@
+name: A10 - SSRF Protection Check
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+  schedule:
+    - cron: "0 4 * * 1"
+
+jobs:
+  ssrf-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Detect unsafe URL usage
+        run: |
+          if grep -r -E "fetch\(.*req\.|axios\.get\(.*req\.|http\.get\(.*req\." .; then
+            echo "SSRF risk: user input used directly in request"
+            exit 1
+          fi
+
+      - name: Detect dangerous protocols
+        run: |
+          if grep -r -E "file://|ftp://|gopher://|http://169\.254\.169\.254" .; then
+            echo "Dangerous protocol detected"
+            exit 1
+          fi
+
+      - name: Check URL validation
+        run: |
+          if ! grep -r -E "new URL\(|validator\.isURL|validateURL" .; then
+            echo "No URL validation detected"
+            exit 1
+          fi
+
+      - name: Check domain whitelist
+        run: |
+          if ! grep -r -E "whitelist|allowedDomains|trustedHosts" .; then
+            echo "No domain whitelist found"
+            exit 1
+          fi
+
+      - name: Detect internal access patterns
+        run: |
+          if grep -r -E "localhost|127\.0\.0\.1|0\.0\.0\.0" .; then
+            echo "Internal network references found"
+          fi
+
+      - name: SSRF checks passed
+        run: echo "SSRF protection checks passed"
