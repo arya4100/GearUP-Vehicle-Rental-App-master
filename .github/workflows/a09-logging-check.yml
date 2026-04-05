@@ -1,0 +1,41 @@
+name: A09 - Logging Enforcement
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+  schedule:
+    - cron: "0 3 * * 1"
+
+jobs:
+  logging-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check logging presence
+        run: |
+          echo "Checking logging usage..."
+
+          COUNT=$(grep -r -E "logger|winston|pino|console.log" . | wc -l)
+
+          if [ "$COUNT" -lt 5 ]; then
+            echo "Not enough logging in project"
+            exit 1
+          fi
+
+      - name: Ensure error logging exists
+        run: |
+          if ! grep -r -E "error|exception|fail" .; then
+            echo "No proper error logging found"
+            exit 1
+          fi
+
+      - name: Detect sensitive data leaks
+        run: |
+          if grep -r -E "password|secret|token" .; then
+            echo "Sensitive data exposed in logs"
+            exit 1
+          fi
