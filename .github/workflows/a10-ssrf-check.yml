@@ -17,35 +17,45 @@ jobs:
 
       - name: Detect unsafe URL usage
         run: |
-          if grep -r -E "fetch\(.*req\.|axios\.get\(.*req\.|http\.get\(.*req\." .; then
+          EXCLUDE="--exclude-dir=.git --exclude-dir=.github --exclude=package-lock.json"
+
+          if grep -r -E "fetch\(.*req\.|axios\.get\(.*req\.|http\.get\(.*req\." . $EXCLUDE; then
             echo "SSRF risk: user input used directly in request"
             exit 1
           fi
 
       - name: Detect dangerous protocols
         run: |
-          if grep -r -E "file://|ftp://|gopher://|http://169\.254\.169\.254" .; then
+          EXCLUDE="--exclude-dir=.git --exclude-dir=.github --exclude=package-lock.json"
+
+          if grep -r -E "file://|ftp://|gopher://|http://169\.254\.169\.254" . $EXCLUDE; then
             echo "Dangerous protocol detected"
             exit 1
           fi
 
       - name: Check URL validation
         run: |
-          if ! grep -r -E "new URL\(|validator\.isURL|validateURL" .; then
+          EXCLUDE="--exclude-dir=.git --exclude-dir=.github --exclude=package-lock.json"
+
+          if ! grep -r -E "new URL\(|validator\.isURL|validateURL" . $EXCLUDE; then
             echo "No URL validation detected"
             exit 1
           fi
 
       - name: Check domain whitelist
         run: |
-          if ! grep -r -E "whitelist|allowedDomains|trustedHosts" .; then
+          EXCLUDE="--exclude-dir=.git --exclude-dir=.github --exclude=package-lock.json"
+
+          if ! grep -r -E "whitelist|allowedDomains|trustedHosts" . $EXCLUDE; then
             echo "No domain whitelist found"
             exit 1
           fi
 
       - name: Detect internal access patterns
         run: |
-          if grep -r -E "localhost|127\.0\.0\.1|0\.0\.0\.0" .; then
+          EXCLUDE="--exclude-dir=.git --exclude-dir=.github --exclude=package-lock.json"
+
+          if grep -r -E "localhost|127\.0\.0\.1|0\.0\.0\.0" . $EXCLUDE; then
             echo "Internal network references found"
           fi
 
