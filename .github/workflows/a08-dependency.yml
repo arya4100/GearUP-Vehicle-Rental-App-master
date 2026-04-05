@@ -1,0 +1,47 @@
+name: A08 - Dependency & Integrity Scan
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+  schedule:
+    - cron: "0 2 * * 1"   # weekly (Monday 2 AM)
+
+jobs:
+  dependency-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install dependencies (clean + safe)
+        run: npm ci
+
+      - name: Check lock file exists
+        run: |
+          if [ ! -f package-lock.json ]; then
+            echo "package-lock.json missing"
+            exit 1
+          fi
+
+      - name: Run npm audit (fail on moderate+)
+        run: npm audit --audit-level=moderate
+
+      - name: Run OWASP Dependency Check
+        uses: dependency-check/Dependency-Check_Action@main
+        with:
+          project: "secure-project"
+          path: "."
+          format: "HTML"
+
+      - name: Upload Dependency Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: dependency-report
+          path: reports
